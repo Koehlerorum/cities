@@ -1,0 +1,174 @@
+swagger: "2.0"
+info:
+  description: ""
+  version: "1.0.0"
+  title: ""
+  license:
+    name: "MIT"
+basePath: "/continents_apiv1"
+schemes:
+- "https"
+paths:
+  /:
+    get:
+      summary: "Lists all continents"
+      description: ""
+      operationId: "getContinents"
+      responses:
+        "200":
+          description: "Success"
+    post:
+      summary: "Adds a new continent"
+      description: ""
+      operationId: "addContinent"
+      parameters:
+      - name: "continentName"
+        in: "query"
+        description: "Name of the created continent"
+        required: true
+        type: "string"
+
+      responses:
+        "201":
+          description: "Success: URI to the created continent is returned in the Location HTTP header."
+        "405":
+          description: "Invalid input"
+  /{continentName}:
+    delete:
+      summary: "Deletes a continent"
+      description: ""
+      operationId: "deleteContinent"
+      parameters:
+      - name: "continentName"
+        in: "path"
+        description: "Name of the continent to be deleted"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Success"
+        "404":
+          description: "Continent not found"
+    get:
+      summary: "List all the countries in a continent."
+      description: ""
+      operationId: "listCountries"
+      parameters:
+      - name: "continentName"
+        in: "path"
+        description: "Name of the continent from which the countries are listed"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Success"
+        "404":
+          description: "Continent not found"
+    post:
+      summary: "Creates a new country"
+      description: ""
+      operationId: "createCountry"
+      parameters:
+      - name: "continentName"
+        in: "path"
+        description: "Name of the continent where the country is added to"
+        required: true
+        type: "string"
+      - name: "countryName"
+        in: "query"
+        description: "Name of the country to be created."
+        required: true
+        type: "string"
+      responses:
+        "201":
+          description: "Success: URI to the created continent is returned in the Location HTTP header."
+        "409":
+          description: "Country already exists."
+  /{continentName}/{countryName}:
+    delete:
+      summary: "Deletes a country."
+      description: ""
+      operationId: "deleteCountry"    
+      parameters:
+      - name: "continentName"
+        in: "path"
+        description: "Name of the continent where the country is located in"
+        required: true
+        type: "string"
+      - name: "countryName"
+        in: "path"
+        description: "Name of the country to be deleted."
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Success"
+        "404":
+          description: "Country not found"
+    get:
+      summary: "Retrieves a list of cities in a country"
+      description: ""
+      operationId: "getCities"
+      parameters:
+      - name: "continentName"
+        in: "path"
+        description: "Name of the continent where the country is located in"
+        required: true
+        type: "string"
+      - name: "countryName"
+        in: "path"
+        description: "Name of the country, which cities are retrieved."
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Success"
+        "404":
+          description: "Country not found"
+    post:
+      summary: "Creates a new city to a country."
+      description: ""
+      operationId: "AddCity"
+      parameters:
+      - name: "continentName"
+        in: "path"
+        description: "Name of the continent where the country is located in"
+        required: true
+        type: "string"
+      - name: "countryName"
+        in: "path"
+        description: "Name of the country, in which a city is being added."
+        required: true
+        type: "string"
+      responses:
+        "201":
+          description: "Success: URI to the created city is returned in the Location HTTP header."
+        "409":
+          description: "City already exists."      
+  /{continentName}/{countryName}/{cityName}:
+    delete:
+      summary: "Deletes a city."
+      description: ""
+      operationId: "deleteCity"    
+      parameters:
+      - name: "continentName"
+        in: "path"
+        description: "Name of the continent where the country is located in"
+        required: true
+        type: "string"
+      - name: "countryName"
+        in: "path"
+        description: "Name of the country, from which a city is being deleted."
+        required: true
+        type: "string"
+      - name: "cityName"
+        in: "path"
+        description: "Name of the city, which is being deleted."
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Success"
+        "404":
+          description: "City not found"
+    

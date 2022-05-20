@@ -1,0 +1,102 @@
+const express = require('express');
+const app = express();
+const port = 3000;
+
+//Faux database
+
+class InvalidParameter extends Error {};
+class AlreadyExistsParameter extends Error {};
+
+var continents = new Map();
+
+class World {
+
+    construct(){
+        this.continents = new Map();
+    }
+
+    addContinent(name){
+        
+    }
+}
+
+class Country {
+    constructor(name){
+        this.name = name;
+        this.cities = new Map();
+    }
+
+    addCity(cityName){
+        this.cities.set(cityName, cityName);
+    }
+}
+
+class Continent {
+    constructor(name){
+        this.name = name;
+        this.countriesMap = new Map();
+    }
+
+    addCountry(countryName){
+        if(!countryName || ! countryName instanceof String) {
+            throw new InvalidParameter("Invalid parameter");
+        } else if (this.cities.has(countryName)){
+            throw new AlreadyExists(`Country ${countryName} already exists.`);
+        } else {
+            this.countriesMap.set(countryName, new Country(countryName));
+        }
+    }
+
+    countries(){
+        let countryList = Array.from(this.countriesMap.keys());
+        return JSON.stringify(countryList);
+    }
+}
+
+app.get('/', (req, res) => {
+
+    let continentList = Array.from(continents.keys());
+    console.log("continent keys:", continentList);
+    res.send(JSON.stringify(continentList));
+})
+
+
+app.post('/', (req, res) => {
+    if(!req.query.continentName){
+        res.status(400).send("Query parameter continentName missing");
+    } else if (continents.has(req.query.continentName)) {
+        res.status(409).send(`Continent ${req.query.continentName} already exists.`);
+    } else {
+        continents.set(req.query.continentName, new Continent(req.query.continentName));
+        res.send("");
+    }
+})
+
+app.get('/:continent', (req, res) => {
+    if (continents.has(req.params.continent)) {
+        let continent = continents.get(req.params.continent);
+        console.log("Found continent", continent.name);
+        res.send(continent.countries());
+    } else {
+        res.status(404).send(`Continent ${req.params.continent} does not exists.`);
+    }
+})
+
+app.post('/:continent', (req, res) => {
+    if(!req.query.countryName){
+        res.status(400).send("Query parameter countryName missing");
+    } else if (!continents.has(req.params.continent)) {
+        res.status(400).send(`Continent ${req.params.continent} does not exists.`);
+    } else {
+        
+        continents.set(req.query.continentName, new Continent(req.query.continentName));
+        res.send("");
+    }
+})
+
+
+
+
+app.listen(port, () => {
+    console.log(`Cities applicatio ${port}`)
+})
