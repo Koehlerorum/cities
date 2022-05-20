@@ -143,10 +143,10 @@ app.get('/', (req, res) => {
 app.post('/', (req, res) => {
     if(!req.query.continentName){
         throw new InvalidParameter("Query parameter continentName missing");            
-    } else {
-        world.addContinent(req.query.continentName);
-        res.send("");
-    }      
+    }
+    world.addContinent(req.query.continentName);
+    res.set("Location", `/${req.query.continentName}`);
+    res.send("");
 })
 
 app.get('/:continent', (req, res) => {
@@ -157,6 +157,7 @@ app.get('/:continent', (req, res) => {
 app.post('/:continent', (req, res) => {
     let continent = world.continent(req.params.continent);
     continent.addCountry(req.query.countryName);
+    res.set("Location", `/${req.params.continent}/${req.query.countryName}`);
     res.send("");
 })
 
@@ -181,6 +182,7 @@ app.post('/:continent/:country', (req, res) => {
     let continent = world.continent(req.params.continent);
     let country = continent.country(req.params.country);
     country.addCity(req.query.cityName);
+    res.set("Location", `/${req.params.continent}/${req.params.country}/${req.query.cityName}`);
     res.send("");
 })
 
