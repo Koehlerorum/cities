@@ -42,6 +42,16 @@ class Country {
     cities(){
         return Array.from(this.citiesMap.keys());
     }
+
+    deleteCity(cityName){
+        if (!cityName || ! cityName instanceof String){
+            throw new InvalidParameter("Invalid parameter continent");
+        } else if (!this.citiesMap.has(cityName)){
+            throw new NotFound(`City ${cityName} does not exists.`);
+	}
+        return this.citiesMap.delete(cityName);
+
+    }
 }
 
 class Continent {
@@ -71,6 +81,15 @@ class Continent {
             throw new NotFound(`Country ${countryName} does not exists.`);
 	}
         return this.countriesMap.get(countryName);
+    }
+
+    deleteCountry(countryName){
+        if (!countryName || ! countryName instanceof String){
+            throw new InvalidParameter("Invalid parameter continent");
+        } else if (!this.countriesMap.has(countryName)){
+            throw new NotFound(`Country ${countryName} does not exists.`);
+	}
+        return this.countriesMap.delete(countryName);
     }
 }
 
@@ -103,6 +122,15 @@ class World {
         }
         return this.continentsMap.get(continentName);
     }
+
+    deleteContinent(continentName){
+        if (!continentName || ! continentName instanceof String){
+            throw new InvalidParameter("Invalid parameter continent");
+        } else if (!this.continentsMap.has(continentName)){
+            throw new NotFound(`Continent ${continentName} does not exists.`);
+        }
+        this.continentsMap.delete(continentName);
+    }
 }
 
 let world = new World();
@@ -132,16 +160,34 @@ app.post('/:continent', (req, res) => {
     res.send("");
 })
 
+app.delete('/:continent', (req, res) => {
+    world.deleteContinent(req.params.continent);
+    res.send("");
+})
+
 app.get('/:continent/:country', (req, res) => {
     let continent = world.continent(req.params.continent);
     let country = continent.country(req.params.country);
     res.send(JSON.stringify(country.cities()));
 })
 
+app.delete('/:continent/:country', (req, res) => {
+    let continent = world.continent(req.params.continent);
+    continent.deleteCountry(req.params.country);
+    res.send("");
+})
+
 app.post('/:continent/:country', (req, res) => {
     let continent = world.continent(req.params.continent);
     let country = continent.country(req.params.country);
     country.addCity(req.query.cityName);
+    res.send("");
+})
+
+app.delete('/:continent/:country/:city', (req, res) => {
+    let continent = world.continent(req.params.continent);
+    let country = continent.country(req.params.country);
+    country.deleteCity(req.params.city);
     res.send("");
 })
 
