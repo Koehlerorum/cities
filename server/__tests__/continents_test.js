@@ -1,17 +1,9 @@
 
 const frisby = require('frisby');
-const { SERVER_URL } = require('./common.js')
+const { SERVER_URL, emptyDb } = require('./common.js')
 
 
 describe('ContinentsTests', function () {
-
-    //Empties the current database.
-    const emptyDb = async () => {
-        let res = await frisby.get(SERVER_URL);
-        res.json.forEach(async continent => {
-            await frisby.del(SERVER_URL + '/' + continent);
-        })        
-    }
     
     beforeAll(emptyDb);
     afterAll(emptyDb);
