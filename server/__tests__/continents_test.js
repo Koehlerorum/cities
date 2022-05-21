@@ -1,5 +1,6 @@
+
 const frisby = require('frisby');
-const Joi = require('joi');
+
 
 let SERVER_URL=""
 if (process.env.CITIES_SERVER) {
