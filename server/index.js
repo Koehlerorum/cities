@@ -76,5 +76,5 @@ app.use((err, req, res, next) => {
 
 
 app.listen(port, () => {
-    console.log(`Cities applicatio ${port}`)
+    console.log(`Cities application is at port ${port}`)
 })
