@@ -4,8 +4,8 @@ const { InvalidParameter, AlreadyExists, NotFound } = require('./errors.js')
 
 //Faux database
 class Country {
-    constructor(name){
-        this.name = name;
+    constructor(countryName){
+        this.name = countryName;
         this.citiesMap = new Map();
     }
 
@@ -29,8 +29,8 @@ class Country {
 }
 
 class Continent {
-    constructor(name){
-        this.name = name;
+    constructor(continentName){
+        this.name = continentName;
         this.countriesMap = new Map();
     }
 
@@ -74,13 +74,13 @@ class World {
         this.continentsMap = new Map();
     }
 
-    addContinent(name){
-        if(!name || ! name instanceof String) {
+    addContinent(continentName){
+        if(!continentName || ! continentName instanceof String) {
             throw new InvalidParameter("Invalid parameter");
-        } else if (this.continentsMap.has(name)){
-            throw new AlreadyExists(`Continent ${name} already exists.`);
+        } else if (this.continentsMap.has(continentName)){
+            throw new AlreadyExists(`Continent ${continentName} already exists.`);
         } else {
-            this.continentsMap.set(name, new Continent(name));
+            this.continentsMap.set(continentName, new Continent(continentName));
         }	
     }
 
