@@ -4,12 +4,10 @@ const { World, Continent, Country } = require('./model.js')
 const app = express();
 const port = 3000;
 
-
 class ExpressError extends Error {
     constructor(status, statusMessage){
         super(statusMessage);
         this.status = status;
-        this.statusMessage = statusMessage;
     }
 }
 class InvalidParameter extends ExpressError {
@@ -88,6 +86,15 @@ app.delete('/:continent/:country/:city', (req, res) => {
     let country = continent.country(req.params.country);
     country.deleteCity(req.params.city);
     res.send("");
+})
+
+
+//Error Handler
+app.use((err, req, res, next) => {
+
+    console.log(err);
+    res.status(err.status).send({ error: err.message });
+    
 })
 
 
