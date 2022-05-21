@@ -1,13 +1,7 @@
 
 const frisby = require('frisby');
+const { SERVER_URL } = require('./common.js')
 
-
-let SERVER_URL=""
-if (process.env.CITIES_SERVER) {
-    SERVER_URL=`http://${process.env.CITIES_SERVER}`
-} else {
-    SERVER_URL=`http://localhost:3000`
-}
 
 describe('ContinentsTests', function () {
 
