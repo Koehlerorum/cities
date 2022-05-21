@@ -9,6 +9,14 @@ if (process.env.CITIES_SERVER) {
 }
 
 describe('getContinents', function () {
+
+    beforeAll(async () => {
+        let res = await frisby.get(SERVER_URL);
+        res.json.forEach(async continent => {
+            await frisby.del(SERVER_URL + '/' + continent);
+        })        
+    });
+    
     it('Returns a list of all continents', function () {
         return frisby.get(SERVER_URL)
             .expect('status', 200)
@@ -18,11 +26,30 @@ describe('getContinents', function () {
 
     it('Add a continent', function () {
         const continent = "africa";
-        return frisby.post(SERVER_URL, continent)
+        return frisby.post(SERVER_URL +`/?continentName=${continent}` )
             .expect('status', 200)
             .expect('header', 'Location', `/${continent}`)
             .then(res => {
-                console.log("Res:", res);
-            });
+                return frisby.get(SERVER_URL)
+            })
+            .expect('status', 200)
+            .expect('header', 'Content-Type', 'application/json; charset=utf-8')
+            .expect('json', [ continent ]);
     });
+
+    it('Add a continent missing continentName', function () {
+        return frisby.post(SERVER_URL)
+            .expect('status', 400)
+            .expect('json', {error:"Query parameter continentName missing"})
+    });
+
+
+    it('Add an existing continent', function () {
+        const continent = "africa";
+        return frisby.post(SERVER_URL +`/?continentName=${continent}` )
+            .expect('status', 409)
+            .expect('json', {error: `Continent ${continent} already exists.`} )
+            .inspectBody()
+    });
+
 });
