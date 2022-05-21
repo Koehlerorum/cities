@@ -136,7 +136,7 @@ class World {
 let world = new World();
 
 app.get('/', (req, res) => {
-    res.send(JSON.stringify(world.continents()));
+    res.json(world.continents());
 })
 
 
@@ -151,7 +151,7 @@ app.post('/', (req, res) => {
 
 app.get('/:continent', (req, res) => {
     let continent = world.continent(req.params.continent);
-    res.send(JSON.stringify(continent.countries()));
+    res.json(continent.countries());
 })
 
 app.post('/:continent', (req, res) => {
@@ -169,7 +169,7 @@ app.delete('/:continent', (req, res) => {
 app.get('/:continent/:country', (req, res) => {
     let continent = world.continent(req.params.continent);
     let country = continent.country(req.params.country);
-    res.send(JSON.stringify(country.cities()));
+    res.json(country.cities());
 })
 
 app.delete('/:continent/:country', (req, res) => {
