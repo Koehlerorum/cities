@@ -1,32 +1,9 @@
 const express = require('express');
 const { World, Continent, Country } = require('./model.js')
+const { InvalidParameter, AlreadyExists, NotFound } = require('./errors.js')
 
 const app = express();
 const port = 3000;
-
-class ExpressError extends Error {
-    constructor(status, statusMessage){
-        super(statusMessage);
-        this.status = status;
-    }
-}
-class InvalidParameter extends ExpressError {
-    constructor(statusMessage){
-        super(400, statusMessage);
-    }
-};
-
-class AlreadyExists extends ExpressError {
-    constructor(statusMessage){
-        super(409, statusMessage);
-    }
-};
-
-class NotFound extends ExpressError {
-    constructor(statusMessage){
-        super(404, statusMessage);
-    }
-};
 
 let world = new World();
 
