@@ -19,7 +19,7 @@ app.post('/', (req, res) => {
     }
     world.addContinent(req.query.continentName);
     res.set("Location", `/${req.query.continentName}`);
-    res.send("");
+    res.status(201).send("");
 })
 
 app.get('/:continent', (req, res) => {
@@ -34,7 +34,7 @@ app.post('/:continent', (req, res) => {
     let continent = world.continent(req.params.continent);
     continent.addCountry(req.query.countryName);
     res.set("Location", `/${req.params.continent}/${req.query.countryName}`);
-    res.send("");
+    res.status(201).send("");
 })
 
 app.delete('/:continent', (req, res) => {
@@ -62,7 +62,7 @@ app.post('/:continent/:country', (req, res) => {
     let country = continent.country(req.params.country);
     country.addCity(req.query.cityName);
     res.set("Location", `/${req.params.continent}/${req.params.country}/${req.query.cityName}`);
-    res.send("");
+    res.status(201).send("");
 })
 
 app.delete('/:continent/:country/:city', (req, res) => {

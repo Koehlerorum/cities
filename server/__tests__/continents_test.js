@@ -5,10 +5,10 @@ const { SERVER_URL, emptyDb } = require('./common.js')
 
 
 describe('ContinentsTests', function () {
-    
+
     beforeAll(emptyDb);
     afterAll(emptyDb);
-    
+
     it('Get a list of all continents (empty)', function () {
         return frisby.get(SERVER_URL)
             .expect('status', 200)
@@ -19,7 +19,7 @@ describe('ContinentsTests', function () {
     it('Add a continent', function () {
         const continent = "africa";
         return frisby.post(`${SERVER_URL}/?continentName=${continent}` )
-            .expect('status', 200)
+            .expect('status', 201)
             .expect('header', 'Location', `/${continent}`)
             .then(res => {
                 return frisby.get(SERVER_URL)
@@ -67,11 +67,11 @@ describe('ContinentsTests', function () {
         const continent1 = "asia";
         const continent2 = "africa";
         return frisby.post(`${SERVER_URL}/?continentName=${continent1}` )
-            .expect('status', 200)
+            .expect('status', 201)
             .expect('header', 'Location', `/${continent1}`)
             .then(res => {
                 return frisby.post(`${SERVER_URL}/?continentName=${continent2}` )
-                    .expect('status', 200)
+                    .expect('status', 201)
                     .expect('header', 'Location', `/${continent2}`)
                     .then(res => {
                         return frisby.get(SERVER_URL)

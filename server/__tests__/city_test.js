@@ -9,14 +9,14 @@ describe('CityTests', function () {
 
     const country1 = "Sweden"
     const country2 = "France"
-    
+
     beforeAll(async () => {
         await emptyDb();
-        
+
         //Create a continent and two countries
-        await frisby.post(`${SERVER_URL}/?continentName=${continent}` )
-        await frisby.post(`${SERVER_URL}/${continent}/?countryName=${country1}` )
-        await frisby.post(`${SERVER_URL}/${continent}/?countryName=${country2}` )
+        await frisby.post(`${SERVER_URL}/?continentName=${continent}` ).expect('status', 201)
+        await frisby.post(`${SERVER_URL}/${continent}/?countryName=${country1}` ).expect('status', 201)
+        await frisby.post(`${SERVER_URL}/${continent}/?countryName=${country2}` ).expect('status', 201)
 
         return frisby.get(`${SERVER_URL}/${continent}`)
             .expect('status', 200)
@@ -25,7 +25,7 @@ describe('CityTests', function () {
             .expect('json', [ country1, country2 ])
     });
     afterAll(emptyDb);
-    
+
     it('Get an empty list of cities', function () {
         return frisby.get(`${SERVER_URL}/${continent}/${country1}`)
             .expect('status', 200)
@@ -62,7 +62,8 @@ describe('CityTests', function () {
     it('Add a city', function () {
         const city="Stockholm"
         return frisby.post(`${SERVER_URL}/${continent}/${country1}/?cityName=${city}`)
-            .expect('status', 200)
+            .expect('status', 201)
+            .expect('header', 'Location', `/${continent}/${country1}/${city}`)
             .then(res => {
                 return frisby.get(`${SERVER_URL}/${continent}/${country1}`)
                     .expect('status', 200)
