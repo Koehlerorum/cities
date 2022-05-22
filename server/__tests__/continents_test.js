@@ -1,5 +1,6 @@
 
 const frisby = require('frisby');
+const Joi = frisby.Joi;
 const { SERVER_URL, emptyDb } = require('./common.js')
 
 
@@ -8,11 +9,11 @@ describe('ContinentsTests', function () {
     beforeAll(emptyDb);
     afterAll(emptyDb);
     
-    it('Returns a list of all continents', function () {
+    it('Get a list of all continents (empty)', function () {
         return frisby.get(SERVER_URL)
             .expect('status', 200)
             .expect('header', 'Content-Type', 'application/json; charset=utf-8')
-            .expect('json', []);
+            .expect('jsonTypes', Joi.array().length(0));
     });
 
     it('Add a continent', function () {
@@ -24,6 +25,7 @@ describe('ContinentsTests', function () {
                 return frisby.get(SERVER_URL)
                     .expect('status', 200)
                     .expect('header', 'Content-Type', 'application/json; charset=utf-8')
+                    .expect('jsonTypes', Joi.array().length(1))
                     .expect('json', [ continent ])
             })
     });
@@ -46,6 +48,12 @@ describe('ContinentsTests', function () {
         const continent = "africa";
         return frisby.del(SERVER_URL +`/${continent}` )
             .expect('status', 200)
+            .then(res => {
+                return frisby.get(SERVER_URL)
+                    .expect('status', 200)
+                    .expect('header', 'Content-Type', 'application/json; charset=utf-8')
+                    .expect('jsonTypes', Joi.array().length(0));
+            });
     });
 
     it('Delete non existing continent', function () {
@@ -69,6 +77,7 @@ describe('ContinentsTests', function () {
                         return frisby.get(SERVER_URL)
                             .expect('status', 200)
                             .expect('header', 'Content-Type', 'application/json; charset=utf-8')
+                            .expect('jsonTypes', Joi.array().length(2))
                             .expect('json', [ continent1, continent2 ])
                     })
             });
