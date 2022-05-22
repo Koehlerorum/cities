@@ -41,7 +41,7 @@ describe('CountryTests', function () {
             })
     });
 
-    it('get countries of continent1', function () {
+    it('Get countries of continent1', function () {
         return frisby.get(`${SERVER_URL}/${continent1}`)
             .expect('status', 200)
             .expect('header', 'Content-Type', 'application/json; charset=utf-8')
@@ -49,7 +49,7 @@ describe('CountryTests', function () {
             .expect('json', [ country1 ])
     });
 
-    it('get countries of continent2', function () {
+    it('Get countries of continent2', function () {
         return frisby.get(`${SERVER_URL}/${continent2}`)
             .expect('status', 200)
             .expect('header', 'Content-Type', 'application/json; charset=utf-8')
@@ -78,4 +78,41 @@ describe('CountryTests', function () {
             .expect('header', 'Content-Type', 'application/json; charset=utf-8')
             .expect('json', {error: `Country ${country1} already exists.`} )
     });
+
+    it('Get countries of a missing continet', function () {
+        const missingContinent = "africa"
+        return frisby.get(`${SERVER_URL}/${missingContinent}`)
+            .expect('status', 404)
+            .expect('header', 'Content-Type', 'application/json; charset=utf-8')
+            .expect('json', {error: `Continent ${missingContinent} does not exists.`})
+    });
+
+
+    it('Delete a country', function () {
+        return frisby.del(`${SERVER_URL}/${continent1}/${country1}`)
+            .expect('status', 200)
+            .then(res => {
+                return frisby.get(`${SERVER_URL}/${continent1}/`)
+                    .expect('status', 200)
+                    .expect('header', 'Content-Type', 'application/json; charset=utf-8')
+                    .expect('jsonTypes', Joi.array().length(0))
+            });
+    });
+
+    it('Delete non existing country', function () {
+        const missingCountry = "France";
+        return frisby.del(`${SERVER_URL}/${continent1}/${missingCountry}`)
+            .expect('status', 404)
+            .expect('header', 'Content-Type', 'application/json; charset=utf-8')
+            .expect('json', {error: `Country ${missingCountry} does not exists.`})
+    });
+
+    it('Delete a country from unknwon continent', function () {
+        const missingContinent = "africa"
+        return frisby.del(`${SERVER_URL}/${missingContinent}/${country1}`)
+            .expect('status', 404)
+            .expect('header', 'Content-Type', 'application/json; charset=utf-8')
+            .expect('json', {error: `Continent ${missingContinent} does not exists.`})
+    });
+
 });
