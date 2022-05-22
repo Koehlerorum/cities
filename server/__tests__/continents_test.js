@@ -18,7 +18,7 @@ describe('ContinentsTests', function () {
 
     it('Add a continent', function () {
         const continent = "africa";
-        return frisby.post(SERVER_URL +`/?continentName=${continent}` )
+        return frisby.post(`${SERVER_URL}/?continentName=${continent}` )
             .expect('status', 200)
             .expect('header', 'Location', `/${continent}`)
             .then(res => {
@@ -39,14 +39,14 @@ describe('ContinentsTests', function () {
 
     it('Add an existing continent', function () {
         const continent = "africa";
-        return frisby.post(SERVER_URL +`/?continentName=${continent}` )
+        return frisby.post(`${SERVER_URL}/?continentName=${continent}` )
             .expect('status', 409)
             .expect('json', {error: `Continent ${continent} already exists.`} )
     });
 
     it('Delete an existing continent', function () {
         const continent = "africa";
-        return frisby.del(SERVER_URL +`/${continent}` )
+        return frisby.del(`${SERVER_URL}/${continent}` )
             .expect('status', 200)
             .then(res => {
                 return frisby.get(SERVER_URL)
@@ -58,7 +58,7 @@ describe('ContinentsTests', function () {
 
     it('Delete non existing continent', function () {
         const continent = "africa";
-        return frisby.del(SERVER_URL +`/${continent}` )
+        return frisby.del(`${SERVER_URL}/${continent}` )
             .expect('status', 404)
             .expect('json', {error: `Continent ${continent} does not exists.`} )
     });
@@ -66,11 +66,11 @@ describe('ContinentsTests', function () {
     it('Add multiple continents', function () {
         const continent1 = "asia";
         const continent2 = "africa";
-        return frisby.post(SERVER_URL +`/?continentName=${continent1}` )
+        return frisby.post(`${SERVER_URL}/?continentName=${continent1}` )
             .expect('status', 200)
             .expect('header', 'Location', `/${continent1}`)
             .then(res => {
-                return frisby.post(SERVER_URL +`/?continentName=${continent2}` )
+                return frisby.post(`${SERVER_URL}/?continentName=${continent2}` )
                     .expect('status', 200)
                     .expect('header', 'Location', `/${continent2}`)
                     .then(res => {

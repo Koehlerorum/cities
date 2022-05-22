@@ -14,8 +14,8 @@ describe('CountryTests', function () {
     beforeAll(async () => {
         await emptyDb();
         //Create two continents
-        await frisby.post(SERVER_URL +`/?continentName=${continent1}` )
-        await frisby.post(SERVER_URL +`/?continentName=${continent2}` )
+        await frisby.post(`${SERVER_URL}/?continentName=${continent1}` )
+        await frisby.post(`${SERVER_URL}/?continentName=${continent2}` )
         return frisby.get(SERVER_URL)
             .expect('status', 200)
             .expect('header', 'Content-Type', 'application/json; charset=utf-8')
