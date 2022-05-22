@@ -54,6 +54,9 @@ app.delete('/:continent/:country', (req, res) => {
 })
 
 app.post('/:continent/:country', (req, res) => {
+    if(!req.query.cityName){
+        throw new InvalidParameter("Query parameter cityName missing");
+    }
     let continent = world.continent(req.params.continent);
     let country = continent.country(req.params.country);
     country.addCity(req.query.cityName);

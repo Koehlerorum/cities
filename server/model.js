@@ -10,6 +10,12 @@ class Country {
     }
 
     addCity(cityName){
+        if (!cityName || ! cityName instanceof String){
+            throw new InvalidParameter("Invalid parameter cityName");
+        } else if (this.citiesMap.has(cityName)){
+            throw new AlreadyExists(`City ${cityName} already exists.`);
+	}
+
         this.citiesMap.set(cityName, cityName);
     }
 
