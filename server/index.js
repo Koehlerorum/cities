@@ -76,9 +76,11 @@ app.delete('/:continent/:country/:city', (req, res) => {
 //Error Handler
 app.use((err, req, res, next) => {
 
-    console.log(err);
-    res.status(err.status).send({ error: err.message });
-
+    let status = 500;
+    if (err.status !== undefined){
+        status = err.status;
+    }
+    res.status(status).send({ error: err.message });
 })
 
 
