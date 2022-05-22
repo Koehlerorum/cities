@@ -19,6 +19,7 @@ describe('CountryTests', function () {
         return frisby.get(SERVER_URL)
             .expect('status', 200)
             .expect('header', 'Content-Type', 'application/json; charset=utf-8')
+            .expect('jsonTypes', Joi.array().length(2))
             .expect('json', [ continent1, continent2 ])
     });
     afterAll(emptyDb);
