@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  description: Simply API to save and query continents, countries and cities.
+  description: Simply API to save and query continents, countries and cities in hierarchical order.
   version: 1.0.0
   title: Cities API
   license:
@@ -10,12 +10,23 @@ servers:
 paths:
   /:
     get:
+      tags:
+        - Cities API
       summary: Lists all continents
       operationId: getContinents
       responses:
         200:
           description: Success
+          content:
+            application/json:
+              schema:
+                  type: array
+                  description: Array of continents
+                  items:
+                    type: string
     post:
+      tags:
+        - Cities API
       summary: Adds a new continent
       operationId: addContinent
       parameters:
@@ -29,9 +40,13 @@ paths:
         '201':
           description: "Success: URI to the created continent is returned in the Location HTTP header."
         '400':
-          description: Invalid input
+          description: Input parameter missing.
+        '409':
+          description: Continent already exists.
   /{continentName}:
     delete:
+      tags:
+        - Cities API
       summary: Deletes a continent
       operationId: deleteContinent
       parameters:
@@ -42,11 +57,13 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        '200':
           description: Success
-        404:
+        '404':
           description: Continent not found
     get:
+      tags:
+        - Cities API
       summary: List all the countries in a continent.
       operationId: listCountries
       parameters:
@@ -57,11 +74,20 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        '200':
           description: Success
-        404:
+          content:
+            application/json:
+              schema:
+                  type: array
+                  description: Array of continents
+                  items:
+                    type: string
+        '404':
           description: Continent not found
     post:
+      tags:
+        - Cities API
       summary: Creates a new country
       operationId: createCountry
       parameters:
@@ -78,12 +104,16 @@ paths:
         schema:
           type: string
       responses:
-        201:
+        '201':
           description: "Success: URI to the created continent is returned in the Location HTTP header."
-        409:
+        '400':
+          description: Input parameter countryName missing.
+        '409':
           description: Country already exists.
   /{continentName}/{countryName}:
     delete:
+      tags:
+        - Cities API
       summary: Deletes a country.
       operationId: deleteCountry
       parameters:
@@ -100,11 +130,13 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        '200':
           description: Success
-        404:
-          description: Country not found
+        '404':
+          description: Country or continent not found
     get:
+      tags:
+        - Cities API
       summary: Retrieves a list of cities in a country
       operationId: getCities
       parameters:
@@ -121,11 +153,13 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        '200':
           description: Success
-        404:
+        '404':
           description: Country not found
     post:
+      tags:
+        - Cities API
       summary: Creates a new city to a country.
       operationId: AddCity
       parameters:
@@ -142,12 +176,16 @@ paths:
         schema:
           type: string
       responses:
-        201:
+        '201':
           description: "Success: URI to the created city is returned in the Location HTTP header."
-        409:
+        '400':
+          description: Input query parameter missing.
+        '409':
           description: City already exists.
   /{continentName}/{countryName}/{cityName}:
     delete:
+      tags:
+        - Cities API
       summary: Deletes a city.
       operationId: deleteCity
       parameters:
@@ -170,7 +208,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        '200':
           description: Success
-        404:
+        '404':
           description: City not found
