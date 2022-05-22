@@ -59,4 +59,64 @@ describe('CityTests', function () {
             .expect('json', {error: "Query parameter cityName missing"})
     });
 
+    it('Add a city', function () {
+        const city="Stockholm"
+        return frisby.post(`${SERVER_URL}/${continent}/${country1}/?cityName=${city}`)
+            .expect('status', 200)
+            .then(res => {
+                return frisby.get(`${SERVER_URL}/${continent}/${country1}`)
+                    .expect('status', 200)
+                    .expect('header', 'Content-Type', 'application/json; charset=utf-8')
+                    .expect('jsonTypes', Joi.array().length(1))
+                    .expect('json', [ city ])
+                    .then(res => {
+                        //Makes sure the city is not shown under a wrong country.
+                        return frisby.get(`${SERVER_URL}/${continent}/${country2}`)
+                            .expect('status', 200)
+                            .expect('header', 'Content-Type', 'application/json; charset=utf-8')
+                            .expect('jsonTypes', Joi.array().length(0))
+                    });
+            });
+    });
+
+    it('Delete a city, unknown continent', function () {
+        const unknownContinent="Asia"
+        const city="Stockholm";
+        return frisby.del(`${SERVER_URL}/${unknownContinent}/${country1}/${city}`)
+            .expect('status', 404)
+            .expect('header', 'Content-Type', 'application/json; charset=utf-8')
+            .expect('json', {error: `Continent ${unknownContinent} does not exists.`})
+    });
+
+    it('Delete a city, unknown country', function () {
+        const unknownCountry = "Spain";
+        const city="Stockholm";
+        return frisby.del(`${SERVER_URL}/${continent}/${unknownCountry}/${city}`)
+            .expect('status', 404)
+            .expect('header', 'Content-Type', 'application/json; charset=utf-8')
+            .expect('json', {error: `Country ${unknownCountry} does not exists.`})
+    });
+
+    it('Delete a city, unknown country', function () {
+        const unknownCity="Uppsala";
+        return frisby.del(`${SERVER_URL}/${continent}/${country1}/${unknownCity}`)
+            .expect('status', 404)
+            .expect('header', 'Content-Type', 'application/json; charset=utf-8')
+            .expect('json', {error: `City ${unknownCity} does not exists.`})
+    });
+
+
+    it('delete a city', function () {
+        const city="Stockholm"
+        return frisby.del(`${SERVER_URL}/${continent}/${country1}/${city}`)
+            .expect('status', 200)
+            .then(res => {
+                return frisby.get(`${SERVER_URL}/${continent}/${country1}`)
+                    .expect('status', 200)
+                    .expect('header', 'Content-Type', 'application/json; charset=utf-8')
+                    .expect('jsonTypes', Joi.array().length(0))
+                    .expect('json', [])
+            });
+    });
+
 });
