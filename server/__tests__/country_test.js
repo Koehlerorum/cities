@@ -57,7 +57,22 @@ describe('CountryTests', function () {
             .expect('json', [ country2 ])
     });
 
-    it('Add country already exists', function () {
+    it('Add country missing parameter', function () {
+        return frisby.post(`${SERVER_URL}/${continent1}/`)
+            .expect('status', 400)
+            .expect('header', 'Content-Type', 'application/json; charset=utf-8')
+            .expect('json', {error: 'Query parameter countryName missing'} )
+    });
+
+    it('Add country to unknown continent', function () {
+        const missingContinent = "africa"
+        return frisby.post(`${SERVER_URL}/${missingContinent}/?countryName=${country1}`)
+            .expect('status', 404)
+            .expect('header', 'Content-Type', 'application/json; charset=utf-8')
+            .expect('json', {error: `Continent ${missingContinent} does not exists.`} )
+    });
+
+    it('Add country that already exists', function () {
         return frisby.post(`${SERVER_URL}/${continent1}/?countryName=${country1}`)
             .expect('status', 409)
             .expect('header', 'Content-Type', 'application/json; charset=utf-8')
