@@ -1,10 +1,11 @@
 const express = require('express');
+const cors = require('cors')
 const { World, Continent, Country } = require('./model.js')
 const { InvalidParameter, AlreadyExists, NotFound } = require('./errors.js')
 
 const app = express();
+app.use(cors())
 const port = 3000;
-
 let world = new World();
 
 app.get('/', (req, res) => {
@@ -14,7 +15,7 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
     if(!req.query.continentName){
-        throw new InvalidParameter("Query parameter continentName missing");            
+        throw new InvalidParameter("Query parameter continentName missing");
     }
     world.addContinent(req.query.continentName);
     res.set("Location", `/${req.query.continentName}`);
@@ -77,7 +78,7 @@ app.use((err, req, res, next) => {
 
     console.log(err);
     res.status(err.status).send({ error: err.message });
-    
+
 })
 
 
