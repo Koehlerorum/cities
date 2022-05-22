@@ -36,7 +36,7 @@ class Continent {
 
     addCountry(countryName){
         if(!countryName || ! countryName instanceof String) {
-            throw new InvalidParameter("Invalid parameter");
+            throw new InvalidParameter("Invalid parameter: countryName.");
         } else if (this.countriesMap.has(countryName)){
             throw new AlreadyExists(`Country ${countryName} already exists.`);
         } else {
@@ -76,7 +76,7 @@ class World {
 
     addContinent(continentName){
         if(!continentName || ! continentName instanceof String) {
-            throw new InvalidParameter("Invalid parameter");
+            throw new InvalidParameter("Invalid parameter: continentName");
         } else if (this.continentsMap.has(continentName)){
             throw new AlreadyExists(`Continent ${continentName} already exists.`);
         } else {
