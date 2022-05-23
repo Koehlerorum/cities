@@ -11,7 +11,7 @@ documented using OpenAPI v3 format.
 
 - **.**: Documentation, Docker related files
 - **server**: Source code of the web service
-- **server/__tests__**: API tests
+- **server/\_\_tests\_\_**: API tests
 
 
 ## Limitations
