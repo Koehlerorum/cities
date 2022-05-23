@@ -1,6 +1,18 @@
-# Cities web service
+# Cities Web Service
 
 ## General
+
+Cities a little toy project what showcases how to build a simply REST
+API using nodejs, expressjs and Docker. It has automated API test
+suite built using frisbyjs test framework and the API has been
+documented using OpenAPI v3 format.
+
+## Directory Hierarchy
+
+- **.**: Documentation, Docker related files
+- **server**: Source code of the web service
+- **server/__tests__**: API tests
+
 
 ## Limitations
 
@@ -17,6 +29,8 @@ notable, this service:
   independent of each other, but they cannot be run in parallel
 - Does not have automated tests for production environment.
   Execution of the tests wipes all the data saved to the service.
+- Does not have separate unit tests. The service implementation is
+  very simple. Hence, there was no need for separate unit tests
 
 ## Usage
 
