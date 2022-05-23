@@ -2,7 +2,7 @@
 
 ## General
 
-Cities a little toy project what showcases how to build a simply REST
+Cities a little toy project that showcases how to build a simply REST
 API using nodejs, expressjs and Docker. It has automated API test
 suite built using frisbyjs test framework and the API has been
 documented using OpenAPI v3 format.
