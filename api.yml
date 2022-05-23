@@ -46,6 +46,12 @@ paths:
       responses:
         '201':
           description: "Success: URI to the created continent is returned in the Location HTTP header."
+          headers:
+            Location:
+              schema:
+                type: string
+              description: URI of the created continent.
+
         '400':
           description: Input parameter missing.
         '409':
@@ -113,6 +119,11 @@ paths:
       responses:
         '201':
           description: "Success: URI to the created continent is returned in the Location HTTP header."
+          headers:
+            Location:
+              schema:
+                type: string
+              description: URI of the created country.
         '400':
           description: Input parameter countryName missing.
         '409':
@@ -162,6 +173,14 @@ paths:
       responses:
         '200':
           description: Success
+          content:
+            application/json:
+              schema:
+                  type: array
+                  description: Array of cities
+                  items:
+                    type: string
+
         '404':
           description: Country not found
     post:
@@ -182,9 +201,22 @@ paths:
         required: true
         schema:
           type: string
+      - name: cityName
+        in: query
+        description: Name of the city to be created.
+        required: true
+        schema:
+          type: string
+
       responses:
         '201':
           description: "Success: URI to the created city is returned in the Location HTTP header."
+          headers:
+            Location:
+              schema:
+                type: string
+              description: URI of the created city.
+
         '400':
           description: Input query parameter missing.
         '409':
