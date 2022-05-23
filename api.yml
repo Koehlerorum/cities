@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: |
-    Cities is a little toy project what showcases how to build a simply
+    Cities is a little toy project that showcases how to build a simply
     REST API using nodejs, expressjs and Docker. It has automated API test
     suite built using frisbyjs test framework.
     This simply API can be used to save and query
@@ -39,7 +39,7 @@ paths:
       parameters:
         - in: query
           name: continentName
-          description: Name of the created continent
+          description: Name of the created continent. Can contain only US ASCII alphabets.
           required: true
           schema:
             type: string
@@ -112,7 +112,7 @@ paths:
           type: string
       - name: countryName
         in: query
-        description: Name of the country to be created.
+        description: Name of the country to be created. Can contain only US ASCII alphabets.
         required: true
         schema:
           type: string
@@ -203,7 +203,7 @@ paths:
           type: string
       - name: cityName
         in: query
-        description: Name of the city to be created.
+        description: Name of the city to be created. Can contain only US ASCII alphabets.
         required: true
         schema:
           type: string
