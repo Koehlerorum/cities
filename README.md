@@ -2,6 +2,22 @@
 
 ## General
 
+## Limitations
+
+This software is not meant for production. It has many limitations
+that prevents it to be useful in any real world scenarios. Most
+notable, this service:
+
+- Does not save any persistent data. All of the saved data is
+  discarded when the service quits.
+- Does not have even basic security features. All communication is
+  done purely using plain HTTP and there is no authentication.
+- Does not have independent tests. The automated tests rely on
+  the certain order of execution of the tests. Test suites are
+  independent of each other, but they cannot be run in parallel
+- Does not have automated tests for production environment.
+  Execution of the tests wipes all the data saved to the service.
+
 ## Usage
 
 The service can be launched from the root of the repository with command:
@@ -27,5 +43,5 @@ service. After this each API can be tested by:
 1. Expanding the API under test,
 1. Clicking **Try it out**,
 1. Inputing parameters and
-1. Clicking Execute
+1. Clicking **Execute**
 
