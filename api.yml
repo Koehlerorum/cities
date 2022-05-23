@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   description: |
-    Cities a little toy project what showcases how to build a simply
+    Cities is a little toy project what showcases how to build a simply
     REST API using nodejs, expressjs and Docker. It has automated API test
     suite built using frisbyjs test framework.
     This simply API can be used to save and query
