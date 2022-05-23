@@ -1,6 +1,13 @@
 openapi: 3.0.3
 info:
-  description: Simply API to save and query continents, countries and cities in hierarchical order.
+  description: |
+    Cities a little toy project what showcases how to build a simply
+    REST API using nodejs, expressjs and Docker. It has automated API test
+    suite built using frisbyjs test framework.
+    This simply API can be used to save and query
+    continents, countries and cities in hierarchical order.
+
+    For more documentation see README.md in the project repository.
   version: 1.0.0
   title: Cities API
   license:
@@ -64,7 +71,7 @@ paths:
     get:
       tags:
         - Cities API
-      summary: List all the countries in a continent.
+      summary: Lists all the countries in a continent.
       operationId: listCountries
       parameters:
       - name: continentName
