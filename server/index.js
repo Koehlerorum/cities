@@ -26,7 +26,8 @@ app.post('/',
     res.status(201).send("");
 })
 
-// Input parameter is not validated. Invalid input will just lead to 404 error.
+// Input parameter is not validated.
+// Invalid input will just lead to 404 error.
 app.get('/:continent',
         (req, res) => {
     console.log(`GET ${req.path}`);
@@ -47,7 +48,8 @@ app.post('/:continent',
     res.status(201).send("");
 })
 
-// Input parameter is not validated. Invalid input will just lead to 404 error.
+// Input parameter is not validated.
+// Invalid input will just lead to 404 error.
 app.delete('/:continent', (req, res) => {
     console.log(`DELETE ${req.path}`);
     
@@ -55,7 +57,8 @@ app.delete('/:continent', (req, res) => {
     res.send("");
 })
 
-// Input parameters are not validated. Invalid input will just lead to 404 error.
+// Input parameters are not validated.
+// Invalid input will just lead to 404 error.
 app.get('/:continent/:country', (req, res) => {
     console.log(`GET ${req.path}`);
     
@@ -64,7 +67,8 @@ app.get('/:continent/:country', (req, res) => {
     res.json(country.cities());
 })
 
-// Input parameters are not validated. Invalid input will just lead to 404 error.
+// Input parameters are not validated.
+// Invalid input will just lead to 404 error.
 app.delete('/:continent/:country', (req, res) => {
     console.log(`DELETE ${req.path}`);
     
@@ -85,7 +89,8 @@ app.post('/:continent/:country',
     res.status(201).send("");
 })
 
-// Input parameters are not validated. Invalid input will just lead to 404 error.
+// Input parameters are not validated.
+// Invalid input will just lead to 404 error.
 app.delete('/:continent/:country/:city', (req, res) => {
     console.log(`DELETE ${req.path}`);
     
