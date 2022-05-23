@@ -14,6 +14,8 @@ app.get('/', (req, res) => {
 
 
 app.post('/', (req, res) => {
+    console.log(`POST ${req.path}`);
+    
     if(!req.query.continentName){
         throw new InvalidParameter("Query parameter continentName missing");
     }
@@ -23,11 +25,15 @@ app.post('/', (req, res) => {
 })
 
 app.get('/:continent', (req, res) => {
+    console.log(`GET ${req.path}`);
+    
     let continent = world.continent(req.params.continent);
     res.json(continent.countries());
 })
 
 app.post('/:continent', (req, res) => {
+    console.log(`POST ${req.path}`);
+    
     if(!req.query.countryName){
         throw new InvalidParameter("Query parameter countryName missing");
     }
@@ -38,23 +44,31 @@ app.post('/:continent', (req, res) => {
 })
 
 app.delete('/:continent', (req, res) => {
+    console.log(`DELETE ${req.path}`);
+    
     world.deleteContinent(req.params.continent);
     res.send("");
 })
 
 app.get('/:continent/:country', (req, res) => {
+    console.log(`GET ${req.path}`);
+    
     let continent = world.continent(req.params.continent);
     let country = continent.country(req.params.country);
     res.json(country.cities());
 })
 
 app.delete('/:continent/:country', (req, res) => {
+    console.log(`DELETE ${req.path}`);
+    
     let continent = world.continent(req.params.continent);
     continent.deleteCountry(req.params.country);
     res.send("");
 })
 
 app.post('/:continent/:country', (req, res) => {
+    console.log(`POST ${req.path}`);
+    
     if(!req.query.cityName){
         throw new InvalidParameter("Query parameter cityName missing");
     }
@@ -66,6 +80,8 @@ app.post('/:continent/:country', (req, res) => {
 })
 
 app.delete('/:continent/:country/:city', (req, res) => {
+    console.log(`DELETE ${req.path}`);
+    
     let continent = world.continent(req.params.continent);
     let country = continent.country(req.params.country);
     country.deleteCity(req.params.city);
