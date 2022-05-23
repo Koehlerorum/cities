@@ -43,6 +43,11 @@ the following command from the root of the repository:
 
 > $ docker-compose run -e CITIES_SERVER=\<your host IP address\>:3000 cities npm run test
 
+The **host IP address** above should be an IP address of the host
+running the **docker-compose** command. However it *must not* be
+localhost or 127.0.0.1, because that would refer the localhost address
+of the docker container running the tests.
+
 ## API Documentation and Manual Testing
 
 The API of the service is documented using OpenAPI format. The
