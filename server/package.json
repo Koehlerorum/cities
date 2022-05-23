@@ -11,7 +11,8 @@
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "express-validator": "^6.14.1"
   },
   "devDependencies": {
     "frisby": "^2.1.3",

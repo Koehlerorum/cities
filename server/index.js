@@ -1,4 +1,5 @@
 const express = require('express');
+const { query, validationResult} = require('express-validator');
 const cors = require('cors')
 const { World, Continent, Country } = require('./model.js')
 const { InvalidParameter, AlreadyExists, NotFound } = require('./errors.js')
@@ -13,36 +14,40 @@ app.get('/', (req, res) => {
 })
 
 
-app.post('/', (req, res) => {
+app.post('/',
+         query('continentName').isAlpha("en-US", { ignore: " " }),
+         (req, res) => {
+    validationResult(req).throw();
+
     console.log(`POST ${req.path}`);
-    
-    if(!req.query.continentName){
-        throw new InvalidParameter("Query parameter continentName missing");
-    }
+
     world.addContinent(req.query.continentName);
     res.set("Location", `/${req.query.continentName}`);
     res.status(201).send("");
 })
 
-app.get('/:continent', (req, res) => {
+// Input parameter is not validated. Invalid input will just lead to 404 error.
+app.get('/:continent',
+        (req, res) => {
     console.log(`GET ${req.path}`);
     
     let continent = world.continent(req.params.continent);
     res.json(continent.countries());
 })
 
-app.post('/:continent', (req, res) => {
+app.post('/:continent',
+         query('countryName').isAlpha("en-US", { ignore: " " }),
+         (req, res) => {
+    validationResult(req).throw();
     console.log(`POST ${req.path}`);
     
-    if(!req.query.countryName){
-        throw new InvalidParameter("Query parameter countryName missing");
-    }
     let continent = world.continent(req.params.continent);
     continent.addCountry(req.query.countryName);
     res.set("Location", `/${req.params.continent}/${req.query.countryName}`);
     res.status(201).send("");
 })
 
+// Input parameter is not validated. Invalid input will just lead to 404 error.
 app.delete('/:continent', (req, res) => {
     console.log(`DELETE ${req.path}`);
     
@@ -50,6 +55,7 @@ app.delete('/:continent', (req, res) => {
     res.send("");
 })
 
+// Input parameters are not validated. Invalid input will just lead to 404 error.
 app.get('/:continent/:country', (req, res) => {
     console.log(`GET ${req.path}`);
     
@@ -58,6 +64,7 @@ app.get('/:continent/:country', (req, res) => {
     res.json(country.cities());
 })
 
+// Input parameters are not validated. Invalid input will just lead to 404 error.
 app.delete('/:continent/:country', (req, res) => {
     console.log(`DELETE ${req.path}`);
     
@@ -66,12 +73,11 @@ app.delete('/:continent/:country', (req, res) => {
     res.send("");
 })
 
-app.post('/:continent/:country', (req, res) => {
+app.post('/:continent/:country',
+         query('cityName').isAlpha("en-US", { ignore: " " }),
+         (req, res) => {
     console.log(`POST ${req.path}`);
     
-    if(!req.query.cityName){
-        throw new InvalidParameter("Query parameter cityName missing");
-    }
     let continent = world.continent(req.params.continent);
     let country = continent.country(req.params.country);
     country.addCity(req.query.cityName);
@@ -79,6 +85,7 @@ app.post('/:continent/:country', (req, res) => {
     res.status(201).send("");
 })
 
+// Input parameters are not validated. Invalid input will just lead to 404 error.
 app.delete('/:continent/:country/:city', (req, res) => {
     console.log(`DELETE ${req.path}`);
     
@@ -91,11 +98,16 @@ app.delete('/:continent/:country/:city', (req, res) => {
 
 //Error Handler
 app.use((err, req, res, next) => {
-
     let status = 500;
     if (err.status !== undefined){
         status = err.status;
+    } else if (err.errors !== undefined) {
+        //express-validator error
+        status = 400;
+        let errorItem = err.errors[0];
+        err.message = `Invalid ${errorItem.location} parameter ${errorItem.param}`
     }
+    console.log("Request error:", status, err.message);
     res.status(status).send({ error: err.message });
 })
 

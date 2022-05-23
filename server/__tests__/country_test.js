@@ -62,7 +62,7 @@ describe('CountryTests', function () {
         return frisby.post(`${SERVER_URL}/${continent1}/`)
             .expect('status', 400)
             .expect('header', 'Content-Type', 'application/json; charset=utf-8')
-            .expect('json', {error: 'Query parameter countryName missing'} )
+            .expect('json', {error: 'Invalid query parameter countryName'} )
     });
 
     it('Add country to unknown continent', function () {

@@ -56,7 +56,7 @@ describe('CityTests', function () {
         return frisby.post(`${SERVER_URL}/${continent}/${country1}/`)
             .expect('status', 400)
             .expect('header', 'Content-Type', 'application/json; charset=utf-8')
-            .expect('json', {error: "Query parameter cityName missing"})
+            .expect('json', {error: "Invalid parameter cityName"})
     });
 
     it('Add a city', function () {

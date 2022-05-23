@@ -33,7 +33,7 @@ describe('ContinentsTests', function () {
     it('Add a continent missing continentName', function () {
         return frisby.post(SERVER_URL)
             .expect('status', 400)
-            .expect('json', {error:"Query parameter continentName missing"})
+            .expect('json', {error:"Invalid query parameter continentName"})
     });
 
 
