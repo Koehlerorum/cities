@@ -64,3 +64,7 @@ service. After this each API can be tested by:
 1. Inputing parameters and
 1. Clicking **Execute**
 
+Above assumes that you are running Swagger.io editor in the same host
+you are running the actual web service. If this is not the case you
+have to manually edit the **servers->url** field in the *api.yml*
+file.
