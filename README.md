@@ -3,8 +3,8 @@
 ## General
 
 Cities is a little toy project that showcases how to build a simply
-REST API using nodejs, expressjs and Docker. It has automated API test
-suite built using frisbyjs test framework and the API has been
+REST API using nodejs, expressjs and Docker. It has an automated API
+test suite built using frisbyjs test framework and the API has been
 documented using OpenAPI v3 format.
 
 ## Directory Hierarchy
@@ -17,7 +17,7 @@ documented using OpenAPI v3 format.
 ## Limitations
 
 This software is not meant for production. It has many limitations
-that prevents it to be useful in any real world scenarios. Most
+that prevent it being useful in any real world scenarios. Most
 notable, this service:
 
 - Does not save any persistent data. All of the saved data is
@@ -25,9 +25,9 @@ notable, this service:
 - Does not have even basic security features. All communication is
   done purely using plain HTTP and there is no authentication.
 - Does not have independent tests. The automated tests rely on
-  the certain order of execution of the tests. Test suites are
+  the order of execution of the tests. Test suites are
   independent of each other, but they cannot be run in parallel
-- Does not have automated tests for production environment.
+- Does not have automated tests for a production environment.
   Execution of the tests wipes all the data saved to the service.
 - Does not have separate unit tests. The service implementation is
   very simple. Hence, there was no need for separate unit tests
@@ -51,11 +51,11 @@ of the docker container running the tests.
 ## API Documentation and Manual Testing
 
 The API of the service is documented using OpenAPI format. The
-documentation can be found in *api.yml* file in the root of this
+documentation can be found in the *api.yml* file in the root of this
 repository.
 
 You can read and test the API easily using [Swagger.io
-editor](https://editor.swagger.io/). In the editor select
+editor](https://editor.swagger.io/). In the editor, select
 **File->Import file** and select act upload *api.yml* to the
 service. After this each API can be tested by:
 
@@ -64,7 +64,7 @@ service. After this each API can be tested by:
 1. Inputing parameters and
 1. Clicking **Execute**
 
-Above assumes that you are running Swagger.io editor in the same host
-you are running the actual web service. If this is not the case you
-have to manually edit the **servers->url** field in the *api.yml*
+The above assumes that you are running Swagger.io editor in the same
+host you are running the actual web service. If this is not the case,
+you have to manually edit the **servers->url** field in the *api.yml*
 file.
